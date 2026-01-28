@@ -21,9 +21,9 @@ public class CombatController {
 
     @PostMapping("/addFighter")
 
-    public Combat addCombatant(@RequestBody Combat combat){
+    public List<Combat> addCombatant(@RequestBody List<Combat> combat){
 
-        return combatRepo.save(combat);
+        return combatRepo.saveAll(combat);
 
 
     }
@@ -33,4 +33,26 @@ public class CombatController {
 
         return combatRepo.findAll();
     }
+
+    @GetMapping("fetchMidWeights")
+
+    public List<Combat> getMidWeights(){
+
+List<Combat> allFighters = combatRepo.findAll();
+
+   return allFighters.stream()
+                .filter(fighter -> fighter.getWeight() >= 75)
+                .toList();
+    }
+
+
+    @GetMapping("fetchLightWeights")
+
+    public List<Combat> getLightWeights(){
+
+        List<Combat> allFighters = combatRepo.findAll();
+
+      return  allFighters.stream().filter(fighter-> fighter.getWeight() <=70).toList();
+    }
+
 }
